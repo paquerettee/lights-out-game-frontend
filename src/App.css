@@ -9,6 +9,14 @@
   color: #888;
 }
 
-button {
-  color: blue;
+.bulb-on {
+  background-image: url("/images/bulb_on.PNG");
+  background-size: cover;
+  background-position: center;
+}
+
+.bulb-off {
+  background-image: url("/images/bulb_off.PNG");
+  background-size: cover;
+  background-position: center;
 }
