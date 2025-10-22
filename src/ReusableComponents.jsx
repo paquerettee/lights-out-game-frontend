@@ -1,9 +1,9 @@
-export function HeaderH1({ children }) {
-  return <h1 className="text-5xl text-blue-300 pb-5">{children}</h1>;
+export function HeaderH1({ children, className = "" }) {
+  return <h1 className={`text-8xl text-blue-300 pb-5 ${className}`}>{children}</h1>;
 }
 
 export function HeaderH2({ children }) {
-  return <h2 className="text-4xl text-blue-300 pb-4">{children}</h2>;
+  return <h2 className="text-6xl text-blue-300 pb-4">{children}</h2>;
 }
 
 export function Button({ children, onClick }) {

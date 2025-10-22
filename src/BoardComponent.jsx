@@ -1,17 +1,22 @@
 import { useState, useEffect, useRef } from "react";
 
-export function BoardComponent({ level, setGameOver, setSteps }) {
+export function BoardComponent({ level, playNextLevel, setSteps }) {
   let boardSize = 3;
   const [board, setBoard] = useState([]);
   const hasInitialized = useRef(false);
 
   function generateSolvableBoard() {
-    let grid = Array.from({ length: boardSize }, () => Array(boardSize).fill(false));
-    for (let i = 0; i < level; i++) {
-      let x = Math.floor(Math.random() * boardSize);
-      let y = Math.floor(Math.random() * boardSize);
-      grid = switchPoints(grid, x, y);
-    }
+    console.log("grid");
+    let grid;
+    do {
+      grid = Array.from({ length: boardSize }, () => Array(boardSize).fill(false));
+      for (let i = 0; i < level; i++) {
+        let x = Math.floor(Math.random() * boardSize);
+        let y = Math.floor(Math.random() * boardSize);
+        console.log(y, x);
+        grid = switchPoints(grid, x, y);
+      }
+    } while (!checkIfAnyTrue(grid)); // to ommit boards with nothing to be done
     setBoard(grid);
   }
 
@@ -29,16 +34,8 @@ export function BoardComponent({ level, setGameOver, setSteps }) {
     return updatedGrid;
   }
 
-  function checkBoard() {
-    for (let i = 0; i < board.length; i++) {
-      for (let j = 0; j < board[i].length; j++) {
-        if (board[i][j]) {
-          setGameOver(false);
-          return;
-        }
-      }
-    }
-    setGameOver(true);
+  function checkIfAnyTrue(grid) {
+    return grid.some((row) => row.some((cell) => cell));
   }
 
   useEffect(() => {
@@ -46,11 +43,11 @@ export function BoardComponent({ level, setGameOver, setSteps }) {
       generateSolvableBoard();
       hasInitialized.current = true;
     }
-  }, []);
+  }, [level]);
 
   useEffect(() => {
     if (board.length > 0) {
-      checkBoard();
+      if (!checkIfAnyTrue(board)) playNextLevel();
       hasInitialized.current = false;
     }
   }, [board]);
